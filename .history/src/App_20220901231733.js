@@ -13,12 +13,14 @@ class App extends Component {
       dropdownOpen: false
     };
   }
-
-  toggle = () => this.setState({dropdownOpen:!this.state.dropdownOpen})
   render() {
     
       // const [dropdownOpen, setDropdownOpen] = this.state(false);
+      this.state={
+        dropdownOpen:false
+      }
     
+      toggle = () => this.setState({dropdownOpen:!this.state.dropdownOpen})
     return (
       <div>
         <Navbar dark color="primary"> 

@@ -5,27 +5,14 @@ import {ButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Na
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
-  }
-
-  toggle = () => this.setState({dropdownOpen:!this.state.dropdownOpen})
   render() {
-    
-      // const [dropdownOpen, setDropdownOpen] = this.state(false);
-    
     return (
       <div>
         <Navbar dark color="primary"> 
         <NavbarBrand href="/">Huzaifa</NavbarBrand>
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={direction}>
         <DropdownToggle caret>Dropdown</DropdownToggle>
-        <DropdownMenu>
+        <DropdownMenu {...args}>
           <DropdownItem header>Header</DropdownItem>
           <DropdownItem>Some Action</DropdownItem>
           <DropdownItem text>Dropdown Item Text</DropdownItem>
