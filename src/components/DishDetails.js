@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardText, CardTitle } from "reactstrap";
 
+
 class DishDetails extends Component {
   render() {
     const { dish } = this.props;
     const comments= dish.comments;
-    console.log(comments[0].id)
 
     return (
+        <div className="container">
       <div className="row">
         <div className="col-12 col-md-5 m-1">
         <Card
@@ -28,12 +29,13 @@ class DishDetails extends Component {
             { comments.map((comm)=>{
            return( <li className="mb-3" key={comm.id}>
                 <h5>{comm.comment}</h5>
-                <h5><span> --{comm.author}</span>, <span className="mx-1">{comm.date}</span></h5>
+                <h5><span> --{comm.author}</span>, <span className="mx-1">{new Intl.DateTimeFormat('en-US').format( Date.parse(comm.date))}</span></h5>
             </li>)
             })
             }
         </ul>
         </div>
+      </div>
       </div>
     );
   }
