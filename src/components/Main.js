@@ -19,6 +19,7 @@ class Main extends Component {
       };
       render() {
         
+
         
         return (
           <div>
@@ -26,7 +27,7 @@ class Main extends Component {
             <NavbarBrand href="/">Huzaifa</NavbarBrand>
             </Navbar>
             <Menu onClick={this.onSelectDish} dishes={this.state.dishes}/>
-            {this.state.selectedDish && <DishDetails dish={this.state.dishes.filter((dish)=>dish.id===this.state.selectedDish)[0]}/>}
+            <DishDetails dish={this.state.dishes.filter((dish)=>dish.id===this.state.selectedDish)[0]}/>
           </div>
         );
       }
