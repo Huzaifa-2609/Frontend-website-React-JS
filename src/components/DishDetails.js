@@ -3,7 +3,7 @@ import { Card, CardBody, CardText, CardTitle } from "reactstrap";
 
 const RenderComments = ({ comments }) => {
   return (
-    <li className="mb-3" key={comments.id}>
+    <li className="mb-3" >
       <h5>{comments.comment}</h5>
       <h5>
         <span> --{comments.author}</span>,{" "}
@@ -43,7 +43,7 @@ const DishDetails = ({ dish }) => {
             <h1>Comments</h1>
             <ul className="mt-2 list-inline">
               {dish.comments.map((comm) => {
-                return <RenderComments comments={comm} />;
+                return <RenderComments key={comm.id} comments={comm} />;
               })}
             </ul>
           </div>

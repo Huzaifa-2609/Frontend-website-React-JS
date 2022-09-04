@@ -9,7 +9,7 @@ const RenderMenuItem=({onClick,dish})=>{
           onClick={() => {
             onClick(dish.id);
           }}
-          key={dish.id}
+          
           className="col-12 col-md-5 m-1"
         >
           <Card
@@ -32,7 +32,7 @@ const  Menu=(props)=> {
 
     const menu = props.dishes.map((dish) => {
       return (
-        <RenderMenuItem dish={dish} onClick={props.onClick}/>
+        <RenderMenuItem key={dish.id} dish={dish} onClick={props.onClick}/>
       );
     });
     return (
