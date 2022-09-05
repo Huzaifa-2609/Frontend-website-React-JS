@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import DishDetails from './DishDetails';
 import Menu from './Menu';
 import { DISHES } from '../shared/dishes';
 import Header from './Header';
 import Footer from './Footer';
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Home from './Home';
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
           dishes: DISHES,
-          selectedDish: null,
         };
       }
       onSelectDish = (dishid) => {
@@ -25,8 +29,16 @@ class Main extends Component {
         return (
           <div>
             <Header/>
-            <Menu onClick={this.onSelectDish} dishes={this.state.dishes}/>
-            <DishDetails dish={this.state.dishes.filter((dish)=>dish.id===this.state.selectedDish)[0]}/>
+            <Routes>
+            <Route path="/home" element={<Home />}/>
+            <Route path="/menu" element={<Menu dishes={this.state.dishes}/>}/>
+            <Route
+        path="*"
+        element={<Navigate to="/home" replace />}
+    />
+            
+            </Routes>
+            {/* <DishDetails dish={this.state.dishes.filter((dish)=>dish.id===this.state.selectedDish)[0]}/> */}
             <Footer/>
           </div>
         );
