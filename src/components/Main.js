@@ -7,8 +7,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import { LEADERS } from "../shared/leader";
 import { PROMOTIONS } from "../shared/promotions";
+import DishDetails from "./DishDetails"
 import { COMMENTS } from "../shared/comments";
 import Contact from "./Contact";
+import DishWithId from "./DishWithId";
+import About from "./About";
 
 class Main extends Component {
   constructor(props) {
@@ -26,6 +29,9 @@ class Main extends Component {
     });
   };
   render() {
+
+   
+    
     return (
       <div>
         <Header />
@@ -44,8 +50,10 @@ class Main extends Component {
               />
             }
           />
-          <Route path="/menu" element={<Menu dishes={this.state.dishes} />} />
+          <Route exact path="/menu" element={<Menu dishes={this.state.dishes} />} />
+          <Route exact path="/menu/:dishId" element={<DishWithId dishes={this.state.dishes} comments={this.state.comments}/>} />
           <Route path="/contactus" element={<Contact/>} />
+          <Route path="/aboutus" element={<About leaders={this.state.leader}/>} />
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
         {/* <DishDetails dish={this.state.dishes.filter((dish)=>dish.id===this.state.selectedDish)[0]}/> */}
