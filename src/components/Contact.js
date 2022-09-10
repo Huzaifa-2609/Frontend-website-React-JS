@@ -29,7 +29,7 @@ class Contact extends Component {
     handleInputChange=(event)=>{
         const target=event.target;
         const name=target.name;
-        const value= target.value;
+        const value= target.type === 'checkbox' ? target.checked : target.value;
         event.preventDefault()
         this.setState({
             ...this.state,
