@@ -2,11 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import DishDetails from "./DishDetails";
 
-const DishWithId = ({dishes, comments}) => {
+const DishWithId = ({dishes, comments, addComment}) => {
     const {dishId}= useParams();
     return(
         <DishDetails dish={dishes.filter((dish) => dish.id === parseInt(dishId,10))[0]} 
-          comments={comments.filter((comment) => comment.dishId === parseInt(dishId,10))} />
+          comments={comments.filter((comment) => comment.dishId === parseInt(dishId,10))} addComment={addComment} />
     );
   };
   export default DishWithId;

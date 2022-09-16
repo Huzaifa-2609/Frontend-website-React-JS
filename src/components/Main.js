@@ -8,6 +8,7 @@ import Contact from "./Contact";
 import DishWithId from "./DishWithId";
 import About from "./About";
 import { connect } from 'react-redux';
+import { addComment, fetchDishes } from '../redux/ActionCreator';
 const mapStateToProps = state => {
   return {
     dishes: state.dishes,
@@ -16,6 +17,13 @@ const mapStateToProps = state => {
     leaders: state.leaders
   }
 }
+const mapDispatchToProps = dispatch => ({
+  
+  addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+  fetchDishes: () => { dispatch(fetchDishes())}
+
+});
+
 
 class Main extends Component {
   // constructor(props) {
@@ -26,6 +34,9 @@ class Main extends Component {
       selectedDish: dishid,
     });
   };
+  componentDidMount() {
+    this.props.fetchDishes();
+  }
   render() {
     return (
       <div>
@@ -34,19 +45,18 @@ class Main extends Component {
           <Route
             path="/home"
             element={
-              <Home
-                dishes={this.props.dishes.filter((dish) => dish.featured)[0]}
-                promotion={
-                  this.props.promotions.filter((promo) => promo.featured)[0]
-                }
-                leader={
-                  this.props.leaders.filter((leader) => leader.featured)[0]
-                }
-              />
+              <Home 
+              dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+              dishesLoading={this.props.dishes.isLoading}
+              dishesErrMess={this.props.dishes.errMess}
+              promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
+              leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+          />
             }
           />
-          <Route exact path="/menu" element={<Menu dishes={this.props.dishes} />} />
-          <Route exact path="/menu/:dishId" element={<DishWithId dishes={this.props.dishes} comments={this.props.comments}/>} />
+          <Route exact path="/menu" element={<Menu dishes={this.props.dishes.dishes} />} />
+          <Route exact path="/menu/:dishId" element={<DishWithId  isLoading={this.props.dishes.isLoading}
+            errMess={this.props.dishes.errMess} addComment={this.props.addComment} dishes={this.props.dishes.dishes} comments={this.props.comments}/>} />
           <Route path="/contactus" element={<Contact/>} />
           <Route path="/aboutus" element={<About leaders={this.props.leaders}/>} />
           <Route path="*" element={<Navigate to="/home" replace />} />
@@ -57,4 +67,4 @@ class Main extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Main);;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);;

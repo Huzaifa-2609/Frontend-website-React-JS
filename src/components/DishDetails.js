@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Button, Label, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
+import { Loading } from "./Loading";
 
 // Commentform Component  starts
 class CommentForm extends Component {
@@ -25,14 +26,16 @@ class CommentForm extends Component {
     });
   };
   handleSubmit = (values) => {
-    alert("the current state is " + JSON.stringify(values));
-    console.log("the current state is " + JSON.stringify(values));
+    this.toggleModal()
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.message);
+
   };
 
   render() {
     const required = (val) => val && val.length;
     const maxLength = (len) => (val) => !val || val.length <= len;
     const minLength = (len) => (val) => val && val.length >= len;
+
     return (
       <div>
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
@@ -108,7 +111,7 @@ class CommentForm extends Component {
 // Commentform component ends
 
 // Dish Details working start
-const RenderComments = ({ comments }) => {
+const RenderComments = ({ comments, addComment, dishId }) => {
   return (
     <>
       <h1>Comments</h1>
@@ -129,7 +132,7 @@ const RenderComments = ({ comments }) => {
           </ul>
         );
       })}
-      <CommentForm />
+      <CommentForm dishId={dishId} addComment={addComment} />
     </>
   );
 };
@@ -152,7 +155,24 @@ const RenderDish = ({ dish }) => {
   );
 };
 
-const DishDetails = ({ dish, comments }) => {
+const DishDetails = ({ dish, comments, addComment,isLoading,errMess }) => {
+  if (isLoading) {
+    return(
+        <div className="container">
+            <div className="row">            
+                <Loading />
+            </div>
+        </div>
+    );
+}else if (errMess) {
+  return(
+      <div className="container">
+          <div className="row">            
+              <h4>{errMess}</h4>
+          </div>
+      </div>
+  );
+} else
   return (
     dish && (
       <div className="container">
@@ -171,7 +191,7 @@ const DishDetails = ({ dish, comments }) => {
         <div className="row">
           <RenderDish dish={dish} />
           <div className="col-12 col-md-5 m-1">
-            <RenderComments comments={comments} />;
+            <RenderComments dishId={dish.id} comments={comments} addComment={addComment} />;
           </div>
         </div>
       </div>
