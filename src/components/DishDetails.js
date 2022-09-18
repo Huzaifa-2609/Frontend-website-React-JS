@@ -11,6 +11,7 @@ import {
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Button, Label, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import { Loading } from "./Loading";
+import { baseUrl } from "../shared/baseUrl";
 
 // Commentform Component  starts
 class CommentForm extends Component {
@@ -145,7 +146,7 @@ const RenderDish = ({ dish }) => {
           width: "100%",
         }}
       >
-        <img alt={dish.name} src={dish.image} />
+        <img alt={dish.name} src= {baseUrl+ dish.image} />
         <CardBody>
           <CardTitle tag="h5">{dish.name}</CardTitle>
           <CardText>{dish.description}</CardText>
