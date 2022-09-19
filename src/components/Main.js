@@ -8,7 +8,8 @@ import Contact from "./Contact";
 import DishWithId from "./DishWithId";
 import About from "./About";
 import { connect } from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos  } from '../redux/ActionCreator';
+import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders ,postFeedback } from '../redux/ActionCreator';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { actions } from "react-redux-form";
 const mapStateToProps = state => {
   return {
@@ -24,15 +25,16 @@ const mapDispatchToProps = dispatch => ({
   fetchDishes: () => { dispatch(fetchDishes())},
   resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
   fetchComments: () => dispatch(fetchComments()),
-  fetchPromos: () => dispatch(fetchPromos())
-
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+  postFeedback : (firstname, lastname, telnum, email, agree, contactType, message)=>dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message))
 });
 
 
 class Main extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+  }
   onSelectDish = (dishid) => {
     this.setState({
       selectedDish: dishid,
@@ -42,12 +44,14 @@ class Main extends Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
-    
+    this.props.fetchLeaders();
   }
   render() {
     return (
       <div>
         <Header />
+        <TransitionGroup>
+        <CSSTransition key={window.location} classNames="page" timeout={300}>
         <Routes>
           <Route
             path="/home"
@@ -59,17 +63,22 @@ class Main extends Component {
               promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
               promoLoading={this.props.promotions.isLoading}
               promoErrMess={this.props.promotions.errMess}
-              leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+              leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+              leaderLoading={this.props.leaders.isLoading}
+              leaderErrMsg={this.props.leaders.errMess}
           />
             }
           />
           <Route exact path="/menu" element={<Menu dishes={this.props.dishes.dishes} />} />
           <Route exact path="/menu/:dishId" element={<DishWithId  isLoading={this.props.dishes.isLoading}
-            errMess={this.props.dishes.errMess} postComment={this.props.postComment} commentsErrMess={this.props.comments.errMess} dishes={this.props.dishes.dishes} comments={this.props.comments.comments}/>} />
-          <Route path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
-          <Route path="/aboutus" element={<About leaders={this.props.leaders}/>} />
+            errMess={this.props.dishes.errMess} postComment={this.props.postComment}  commentsErrMess={this.props.comments.errMess} dishes={this.props.dishes.dishes} comments={this.props.comments.comments}/>} />
+          <Route path="/contactus" element={<Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback}/>} />
+          <Route path="/aboutus" element={<About isLoading={this.props.leaders.isLoading}
+            errMess={this.props.leaders.errMess} leaders={this.props.leaders.leaders}/>} />
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
+        </CSSTransition>
+        </TransitionGroup>
         <Footer />
       </div>
     );

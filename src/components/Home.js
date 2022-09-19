@@ -2,8 +2,10 @@ import React from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap";
 import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./Loading";
+import { FadeTransform } from 'react-animation-components';
 
 const RenderCard = ({ item , isLoading, errMess}) => {
+  console.log(item)
   if (isLoading) {
     return(
             <Loading />
@@ -16,6 +18,11 @@ else if (errMess) {
 }
 else 
   return (
+    <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
     <Card
       style={{
         width: "100%",
@@ -36,6 +43,7 @@ else
         </CardText>
       </CardBody>
     </Card>
+  </FadeTransform>
   );
 };
 const Home = (props) => {
@@ -49,7 +57,7 @@ const Home = (props) => {
         <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.promoErrMess} />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.leader} />
+          <RenderCard item={props.leader} isLoading={props.leaderLoading} errMess={props.leaderErrMsg} />
         </div>
       </div>
     </div>
